@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سيمباي ديزاين | معرض أعمالي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+  body{background:#f4f6ff;color:#222;overflow-x:hidden}
+  header{background:#3954A4;color:#fff;text-align:center;padding:50px 20px}
+  header h1{font-size:42px;font-weight:900;animation:fadeDown 0.8s ease}
+  header p{opacity:.9;margin-top:8px;animation:fadeDown 1s ease}
+  .btn{display:inline-block;background:#fff;color:#3954A4;padding:12px 25px;border-radius:50px;font-weight:700;text-decoration:none;margin-top:20px;transition:transform .3s ease, box-shadow .3s ease}
+  .btn:hover{transform:scale(1.05);box-shadow:0 10px 20px rgba(0,0,0,.2)}
+  .filters{text-align:center;padding:20px,;}
+  .filters button{border:2px solid #3954A4;background:#fff;color:#3954A4;padding:8px 20px;border-radius:50px;cursor:pointer;margin:5px;font-weight:700;transition:all .3s ease}
+  .filters button.active,.filters button:hover{background:#3954A4;color:#fff;transform:translateY(-2px)}
+
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;padding:20px;max-width:1100px;margin:auto}
+
+  .card{
+    background:#fff;border-radius:15px;overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+    opacity:0;transform:translateY(30px);
+    transition:opacity .6s ease, transform .6s ease, box-shadow .35s ease;
+    cursor:pointer;
+  }
+  .card.show{opacity:1;transform:translateY(0)}
+  .card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 15px 30px rgba(57,84,164,.25)}
+  .card .img-box{overflow:hidden}
+  .card img{width:100%;height:220px;object-fit:cover;transition:transform .6s ease}
+  .card:hover img{transform:scale(1.1) rotate(1deg)}
+  .card div{padding:15px}
+  .card h3{color:#3954A4}
+
+  footer{background:#3954A4;color:#fff;text-align:center;padding:30px 20px;margin-top:30px}
+  footer a{color:#fff;font-weight:700;text-decoration:none}
+  .whatsapp{position:fixed;bottom:20px;left:20px;background:#25D366;color:#fff;padding:14px 20px;border-radius:50px;text-decoration:none;font-weight:700;transition:transform .3s ease;z-index:99}
+  .whatsapp:hover{transform:scale(1.1)}
+
+  @keyframes fadeDown{
+    from{opacity:0;transform:translateY(-20px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+
+  /* ===== Media Query - ضبط كل الشاشات ===== */
+
+  /* تابلت: من 768px وتحت */
+  @media (max-width: 768px){
+    header{padding:35px 15px}
+    header h1{font-size:32px}
+    header p{font-size:15px}
+    .gallery{grid-template-columns:repeat(2, 1fr);gap:15px;padding:15px}
+    .card img{height:180px}
+    .filters button{padding:7px 15px;font-size:14px}
+  }
+
+  /* تلفون: من 480px وتحت */
+  @media (max-width: 480px){
+    header{padding:30px 12px}
+    header h1{font-size:26px}
+    header p{font-size:14px}
+    .btn{padding:10px 20px;font-size:14px;width:90%;max-width:300px}
+    .gallery{grid-template-columns:1fr;gap:15px;padding:12px}
+    .card img{height:200px}
+    .filters{display:flex;flex-wrap:wrap;justify-content:center;gap:5px}
+    .filters button{flex:1 1 40%;font-size:13px;padding:8px 10px}
+    .whatsapp{bottom:15px;left:15px;padding:11px 16px;font-size:14px}
+    footer{font-size:14px;padding:25px 15px}
+  }
+
+  /* شاشات كبيرة جدا: من 1200px وفوق */
+  @media (min-width: 1200px){
+    .gallery{max-width:1200px;grid-template-columns:repeat(3, 1fr)}
+    header h1{font-size:48px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+	<img src="profile.png" width="100" height="100" style="border-radius:50px;"/>
+  <h1>سيمباي ديزاين</h1>
+  <p>تصميم هويات تجارية • بوسترات • بحوث تخرج</p>
+  <a class="btn" href="https://wa.me/249991024965">اطلب تصميمك الآن</a>
+</header>
+
+<div class="filters">
+  <button class="active" onclick="filterWorks('all',this)">الكل</button>
+  <button onclick="filterWorks('logo',this)">هويات</button>
+  <button onclick="filterWorks('poster',this)">بوسترات</button>
+  <button onclick="filterWorks('research',this)">بحوث</button>
+</div>
+
+<div class="gallery" id="gallery">
+  <div class="card" data-cat="logo"><div class="img-box"><img src="profile.png"></div><div><h3>هوية تجارية 1</h3><p>لوجو + هوية كاملة</p></div></div>
+  <div class="card" data-cat="poster"><div class="img-box"><img src="https://via.placeholder.com/400x300/FFC107/000000?text=Poster+1"></div><div><h3>بوستر إعلاني</h3><p>تصميم سوشيال ميديا</p></div></div>
+  <div class="card" data-cat="research"><div class="img-box"><img src="https://via.placeholder.com/400x300/00BCD4/ffffff?text=Research"></div><div><h3>بحث تخرج</h3><p>كتابة وتنسيق احترافي</p></div></div>
+  <div class="card" data-cat="logo"><div class="img-box"><img src="https://via.placeholder.com/400x300/3954A4/ffffff?text=Logo+2"></div><div><h3>هوية تجارية 2</h3><p>لوجو + كروت</p></div></div>
+  <div class="card" data-cat="poster"><div class="img-box"><img src="https://via.placeholder.com/400x300/FF5722/ffffff?text=Poster+2"></div><div><h3>بوستر إعلاني 2</h3><p>تصميم سوشيال ميديا</p></div></div>
+  <div class="card" data-cat="research"><div class="img-box"><img src="https://via.placeholder.com/400x300/4CAF50/ffffff?text=Research+2"></div><div><h3>بحث تخرج 2</h3><p>تنسيق Word احترافي</p></div></div>
+</div>
+
+<footer>
+  <p>تابعني:</p>
+  <p style="margin-top:10px">فيسبوك • انستقرام • تليجرام • تيك توك</p>
+  <p style="margin-top:10px"><a href="https://wa.me/249991024965">واتساب: 0991024965</a></p>
+</footer>
+
+<a class="whatsapp" href="https://wa.me/249991024965">💬 واتساب</a>
+
+<script>
+function filterWorks(cat, btn){
+  document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(card=>{
+    if(cat==='all' || card.dataset.cat===cat){
+      card.style.display='block';
+      setTimeout(()=>card.classList.add('show'),50);
+    } else {
+      card.style.display='none';
+    }
+  });
+}
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting) entry.target.classList.add('show');
+  });
+},{threshold:0.1});
+document.querySelectorAll('.card').forEach(card=>observer.observe(card));
+</script>
+
+</body>
+</html>
