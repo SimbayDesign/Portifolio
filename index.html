@@ -4,28 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>سيمباي ديزاين | معرض أعمالي</title>
+
+<!-- ===== أيقونة الصفحة Favicon ===== -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%233954A4'/%3E%3Ctext x='50' y='68' font-size='55' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
+<!-- لو عندك صورة لوجو، استبدل السطر الفوق ده بهذا السطر: -->
+<!-- <link rel="icon" type="image/png" href="logo.png"> -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%233954A4'/%3E%3Ctext x='50' y='68' font-size='55' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+  html{scroll-behavior:smooth}
   body{background:#f4f6ff;color:#222;overflow-x:hidden}
   header{background:#3954A4;color:#fff;text-align:center;padding:50px 20px}
   header h1{font-size:42px;font-weight:900;animation:fadeDown 0.8s ease}
   header p{opacity:.9;margin-top:8px;animation:fadeDown 1s ease}
-  .btn{display:inline-block;background:#fff;color:#3954A4;padding:12px 25px;border-radius:50px;font-weight:700;text-decoration:none;margin-top:20px;transition:transform .3s ease, box-shadow .3s ease}
+  .header-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+  .btn{display:inline-block;background:#fff;color:#3954A4;padding:12px 25px;border-radius:50px;font-weight:700;text-decoration:none;transition:transform .3s ease, box-shadow .3s ease;border:2px solid #fff;cursor:pointer;font-size:16px}
   .btn:hover{transform:scale(1.05);box-shadow:0 10px 20px rgba(0,0,0,.2)}
-  .filters{text-align:center;padding:20px,;}
+  .btn-outline{background:transparent;color:#fff}
+  .btn-outline:hover{background:#fff;color:#3954A4}
+  .filters{text-align:center;padding:20px}
   .filters button{border:2px solid #3954A4;background:#fff;color:#3954A4;padding:8px 20px;border-radius:50px;cursor:pointer;margin:5px;font-weight:700;transition:all .3s ease}
   .filters button.active,.filters button:hover{background:#3954A4;color:#fff;transform:translateY(-2px)}
-
   .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;padding:20px;max-width:1100px;margin:auto}
-
-  .card{
-    background:#fff;border-radius:15px;overflow:hidden;
-    box-shadow:0 5px 15px rgba(0,0,0,.1);
-    opacity:0;transform:translateY(30px);
-    transition:opacity .6s ease, transform .6s ease, box-shadow .35s ease;
-    cursor:pointer;
-  }
+  .card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,.1);opacity:0;transform:translateY(30px);transition:opacity .6s ease, transform .6s ease, box-shadow .35s ease;cursor:pointer}
   .card.show{opacity:1;transform:translateY(0)}
   .card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 15px 30px rgba(57,84,164,.25)}
   .card .img-box{overflow:hidden}
@@ -33,20 +36,64 @@
   .card:hover img{transform:scale(1.1) rotate(1deg)}
   .card div{padding:15px}
   .card h3{color:#3954A4}
-
+  #servicesModal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:10001;display:none;align-items:center;justify-content:center;padding:20px}
+  #servicesModal.open{display:flex;animation:fadeIn .3s ease}
+  .services-box{background:#fff;width:100%;max-width:800px;max-height:85vh;overflow-y:auto;border-radius:20px;padding:25px;position:relative;animation:zoomIn .35s ease}
+  .services-box h2{color:#3954A4;text-align:center;font-size:26px;margin-bottom:5px}
+  .services-box > p{text-align:center;color:#666;margin-bottom:20px}
+  .services-close{position:absolute;top:15px;left:15px;width:40px;height:40px;border:none;border-radius:50%;background:#3954A4;color:#fff;font-size:18px;font-weight:900;cursor:pointer}
+  .service-item{display:flex;gap:15px;background:#f4f6ff;border-radius:15px;padding:18px;margin-bottom:15px;align-items:flex-start}
+  .service-icon{font-size:32px;background:#fff;width:60px;height:60px;min-width:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+  .service-item h3{color:#3954A4;font-size:19px}
+  .service-item p{color:#555;font-size:14px;margin:6px 0 10px;line-height:1.6}
+  .service-item .price{color:#3954A4;font-weight:700;font-size:14px}
+  .order-btn{display:inline-block;background:#25D366;color:#fff;padding:9px 18px;border-radius:50px;text-decoration:none;font-weight:700;font-size:14px;margin-top:8px;transition:transform .3s ease}
+  .order-btn:hover{transform:scale(1.05)}
+  #lightbox{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:10000;display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px}
+  #lightbox.open{display:flex;animation:fadeIn .3s ease}
+  #lightbox img{max-width:90%;max-height:75vh;border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,.5);animation:zoomIn .35s ease;object-fit:contain;background:#fff}
+  #lightbox h3{color:#fff;margin-top:15px;font-size:22px}
+  #lightbox p{color:#ddd;margin-top:5px}
+  #lightbox .counter{color:#fff;opacity:.7;margin-top:8px;font-size:14px}
+  .lb-close{position:absolute;top:20px;left:20px;width:45px;height:45px;border:none;border-radius:50%;background:#fff;color:#3954A4;font-size:22px;font-weight:900;cursor:pointer}
+  .lb-btn{position:absolute;top:50%;transform:translateY(-50%);width:45px;height:45px;border:none;border-radius:50%;background:#fff;color:#3954A4;font-size:22px;font-weight:900;cursor:pointer}
+  .lb-prev{right:15px}.lb-next{left:15px}
+  .lb-close:hover,.lb-btn:hover{background:#3954A4;color:#fff}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes zoomIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+  .contact{background:#fff;max-width:700px;margin:30px auto;padding:30px 20px;border-radius:20px;box-shadow:0 5px 20px rgba(0,0,0,.08);text-align:center}
+  .contact h2{color:#3954A4;font-size:26px}
+  .contact p{margin:10px 0 20px;color:#555}
+  .contact input,.contact textarea{width:100%;padding:12px 15px;margin-bottom:12px;border:2px solid #ddd;border-radius:12px;font-family:'Cairo',sans-serif;font-size:15px;outline:none;transition:border .3s ease}
+  .contact input:focus,.contact textarea:focus{border-color:#3954A4}
+  .contact textarea{min-height:110px;resize:vertical}
+  .contact button{width:100%;padding:13px;background:#3954A4;color:#fff;border:none;border-radius:50px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .3s ease, background .3s ease}
+  .contact button:hover{transform:scale(1.02);background:#2e4390}
+  .email-direct{margin-top:15px;font-size:14px}
+  .email-direct a{color:#3954A4;font-weight:700}
+  #backToTop{position:fixed;bottom:20px;right:20px;width:50px;height:50px;border:none;border-radius:50%;background:#3954A4;color:#fff;font-size:22px;cursor:pointer;z-index:98;box-shadow:0 8px 20px rgba(57,84,164,.4);opacity:0;visibility:hidden;transform:translateY(20px);transition:opacity .4s ease, transform .4s ease, visibility .4s}
+  #backToTop.show{opacity:1;visibility:visible;transform:translateY(0)}
+  #backToTop:hover{background:#2e4390;transform:translateY(-3px)}
   footer{background:#3954A4;color:#fff;text-align:center;padding:30px 20px;margin-top:30px}
   footer a{color:#fff;font-weight:700;text-decoration:none}
+  .social-icons{display:flex;justify-content:center;gap:15px;margin-top:15px}
+  .social-icons a{width:45px;height:45px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .3s ease, background .3s ease}
+  .social-icons a:hover{transform:translateY(-5px) scale(1.1);background:#fff}
+  .social-icons a:hover svg{fill:#3954A4}
+  .social-icons svg{width:22px;height:22px;fill:#fff;transition:fill .3s ease}
+  .footer-handle{margin-top:15px;opacity:.9}
   .whatsapp{position:fixed;bottom:20px;left:20px;background:#25D366;color:#fff;padding:14px 20px;border-radius:50px;text-decoration:none;font-weight:700;transition:transform .3s ease;z-index:99}
   .whatsapp:hover{transform:scale(1.1)}
-
-  @keyframes fadeDown{
-    from{opacity:0;transform:translateY(-20px)}
-    to{opacity:1;transform:translateY(0)}
-  }
-
-  /* ===== Media Query - ضبط كل الشاشات ===== */
-
-  /* تابلت: من 768px وتحت */
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+  #loader{position:fixed;inset:0;background:#3954A4;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;transition:opacity .6s ease, visibility .6s ease}
+  #loader.hide{opacity:0;visibility:hidden}
+  #loader .logo-text{color:#fff;font-size:38px;font-weight:900;animation:pulse 1.2s ease-in-out infinite}
+  #loader p{color:#fff;opacity:.85;font-size:16px}
+  .spinner{width:55px;height:55px;border:5px solid rgba(255,255,255,.3);border-top:5px solid #fff;border-radius:50%;animation:spin 1s linear infinite}
+  .progress-bar{width:200px;height:6px;background:rgba(255,255,255,.25);border-radius:50px;overflow:hidden}
+  .progress-bar span{display:block;height:100%;width:0;background:#fff;border-radius:50px;transition:width .3s ease}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
   @media (max-width: 768px){
     header{padding:35px 15px}
     header h1{font-size:32px}
@@ -54,23 +101,29 @@
     .gallery{grid-template-columns:repeat(2, 1fr);gap:15px;padding:15px}
     .card img{height:180px}
     .filters button{padding:7px 15px;font-size:14px}
+    .lb-btn{width:40px;height:40px}
   }
-
-  /* تلفون: من 480px وتحت */
   @media (max-width: 480px){
     header{padding:30px 12px}
     header h1{font-size:26px}
     header p{font-size:14px}
-    .btn{padding:10px 20px;font-size:14px;width:90%;max-width:300px}
+    .btn{padding:10px 20px;font-size:14px}
+    .header-btns{flex-direction:column;align-items:center}
+    .header-btns .btn{width:90%;max-width:300px}
     .gallery{grid-template-columns:1fr;gap:15px;padding:12px}
     .card img{height:200px}
     .filters{display:flex;flex-wrap:wrap;justify-content:center;gap:5px}
     .filters button{flex:1 1 40%;font-size:13px;padding:8px 10px}
     .whatsapp{bottom:15px;left:15px;padding:11px 16px;font-size:14px}
     footer{font-size:14px;padding:25px 15px}
+    #loader .logo-text{font-size:30px}
+    .social-icons a{width:42px;height:42px}
+    #lightbox img{max-height:60vh}
+    .lb-prev{right:8px}.lb-next{left:8px}
+    .contact{margin:20px 12px;padding:25px 15px}
+    #backToTop{bottom:85px;right:15px;width:45px;height:45px}
+    .service-item{flex-direction:column;text-align:center;align-items:center}
   }
-
-  /* شاشات كبيرة جدا: من 1200px وفوق */
   @media (min-width: 1200px){
     .gallery{max-width:1200px;grid-template-columns:repeat(3, 1fr)}
     header h1{font-size:48px}
@@ -79,35 +132,141 @@
 </head>
 <body>
 
+<div id="loader">
+  <div class="logo-text">سيمباي ديزاين</div>
+  <div class="spinner"></div>
+  <div class="progress-bar"><span id="progress"></span></div>
+  <p>جاري تحميل معرض الأعمال...</p>
+</div>
+<!--header section-->
 <header>
-	<img src="profile.png" width="100" height="100" style="border-radius:50px;"/>
+<!--profile section-->
+<img src="profile.png" width="100" height="100" style="border-radius:50px;"/>
+	
   <h1>سيمباي ديزاين</h1>
   <p>تصميم هويات تجارية • بوسترات • بحوث تخرج</p>
-  <a class="btn" href="https://wa.me/249991024965">اطلب تصميمك الآن</a>
+  <div class="header-btns">
+    <a class="btn" href="https://wa.me/249991024965">اطلب تصميمك الآن</a>
+    <button class="btn btn-outline" onclick="openServices()">✨ خدماتي</button>
+  </div>
 </header>
-
+<!--categories section-->
 <div class="filters">
   <button class="active" onclick="filterWorks('all',this)">الكل</button>
   <button onclick="filterWorks('logo',this)">هويات</button>
   <button onclick="filterWorks('poster',this)">بوسترات</button>
-  <button onclick="filterWorks('research',this)">بحوث</button>
+  <button onclick="filterWorks('research',this)">مطبوعات</button>
 </div>
-
+<!--gallery section-->
 <div class="gallery" id="gallery">
-  <div class="card" data-cat="logo"><div class="img-box"><img src="profile.png"></div><div><h3>هوية تجارية 1</h3><p>لوجو + هوية كاملة</p></div></div>
-  <div class="card" data-cat="poster"><div class="img-box"><img src="https://via.placeholder.com/400x300/FFC107/000000?text=Poster+1"></div><div><h3>بوستر إعلاني</h3><p>تصميم سوشيال ميديا</p></div></div>
-  <div class="card" data-cat="research"><div class="img-box"><img src="https://via.placeholder.com/400x300/00BCD4/ffffff?text=Research"></div><div><h3>بحث تخرج</h3><p>كتابة وتنسيق احترافي</p></div></div>
-  <div class="card" data-cat="logo"><div class="img-box"><img src="https://via.placeholder.com/400x300/3954A4/ffffff?text=Logo+2"></div><div><h3>هوية تجارية 2</h3><p>لوجو + كروت</p></div></div>
-  <div class="card" data-cat="poster"><div class="img-box"><img src="https://via.placeholder.com/400x300/FF5722/ffffff?text=Poster+2"></div><div><h3>بوستر إعلاني 2</h3><p>تصميم سوشيال ميديا</p></div></div>
-  <div class="card" data-cat="research"><div class="img-box"><img src="https://via.placeholder.com/400x300/4CAF50/ffffff?text=Research+2"></div><div><h3>بحث تخرج 2</h3><p>تنسيق Word احترافي</p></div></div>
+  <div class="card" data-cat="logo"><div class="img-box"><img src="id2.png"></div><div><h3>نانا للتسمين</h3><p>لوجو + ملصق تجاري</p></div></div>
+  <div class="card" data-cat="poster"><div class="img-box"><img src="poster1.png"></div><div><h3>بوستر اعلاني لزيت شعر</h3><p>تصميم سوشيال ميديا</p></div></div>
+  <div class="card" data-cat="poster"><div class="img-box"><img src="poster2.png"></div><div><h3>دعوة فرح الكترونية</h3><p>تصميم كرت دعوة الكتروني لمواقع التواصل الاجتماعي</p></div></div>
+  <div class="card" data-cat="logo"><div class="img-box"><img src="id3.png"></div><div><h3>منال للحوم البيضاء</h3><p>لوجو</p></div></div>
+  <div class="card" data-cat="poster"><div class="img-box"><img src="poster3.png"></div><div><h3>تهنئة عيد الاضحى المبارك</h3><p>تصميم سوشيال ميديا</p></div></div>
+  <div class="card" data-cat="research"><div class="img-box"><img src="data1.png"></div><div><h3>تحليل بيانات لمعهد تدريب</h3><p>عمل مخططات تحليل رسومية</p></div></div>
+  <div class="card" data-cat="logo"><div class="img-box"><img src="id1.png"></div><div><h3>عنوان المراقبة</h3><p>لوجو لشركة خاصة ببيع كاميرات المراقبة</p></div></div>
+  <div class="card" data-cat="poster"><div class="img-box"><img src="poster4.png"></div><div><h3>بوستر رياضي لمباريات كأس العالم 2026</h3><p>تصميم سوشيال ميديا</p></div></div>
+  <div class="card" data-cat="research"><div class="img-box"><img src="print1.png"></div><div><h3>ملصق تجاري</h3><p>ملصق تجاري خاص بالعلامة التجارية "نانا للتسمين"</p></div></div>
+  <div class="card" data-cat="poster"><div class="img-box"><img src="poster5.png"></div><div><h3>تصميم غلاف لدعم القوات المسلحة السودانية</h3><p>تصميم سوشيال ميديا</p></div></div>
+ <div class="card" data-cat="poster"><div class="img-box"><img src="poster6.png"></div><div><h3>غلاف صفحة بالفيس بوك</h3><p>تصميم سوشيال ميديا</p></div></div>
+ <div class="card" data-cat="poster"><div class="img-box"><img src="poster7.png"></div><div><h3>بوستر اعلاني لمطعم</h3><p>تصميم سوشيال ميديا</p></div></div>
+ <div class="card" data-cat="poster"><div class="img-box"><img src="poster8.png"></div><div><h3>بوستر تهنئة بحلول العام الجديد</h3><p>تصميم سوشيال ميديا</p></div></div>
+ <div class="card" data-cat="poster"><div class="img-box"><img src="poster9.png"></div><div><h3>بوستر ديني توعوي</h3><p>بوستر ديني عن كيفية اداء صلاة الاستخارة</p></div></div>
+ <div class="card" data-cat="poster"><div class="img-box"><img src="poster10.png"></div><div><h3>بوستر اعلاني</h3><p>بوستر اعلاني لصالح مركز النيل الازرق للتدريب</p></div></div>
+ <div class="card" data-cat="poster"><div class="img-box"><img src="poster11.png"></div><div><h3>مركز ليلى كير للخدمات الطبية</h3><p>تصميم بويتر اعلاني</p></div></div>  
+ <div class="card" data-cat="poster"><div class="img-box"><img src="poster12.png"></div><div><h3>نادي بلاتينيوم الرياضي ـ السعودية</h3><p>تصميم بوستر اعلاني</p></div></div>  
 </div>
-
+<!--services section-->
+<div id="servicesModal" onclick="closeServices(event)">
+  <div class="services-box">
+    <button class="services-close" onclick="closeServices(event, true)">✕</button>
+    <h2>✨ خدماتي</h2>
+    <p>اختار الخدمة البتناسبك واطلبها طوالي بالواتساب</p>
+ <div class="service-item">
+      <div class="service-icon">💍</div>
+      <div>
+        <h3>تصميم دعوات الفرح والتهاني</h3>
+        <p>صمم دعوات فرح راقية وجذابة بأسلوب عصري و جميل + كروت دعوة + مقاطع فيديو</p>
+        <div class="price">سرعة في الإنجاز • نماذج عديدة • أسعار مناسبة</div>
+        <a class="order-btn" href="https://wa.me/249991024965?text=السلام عليكم عايز أطلب تصميم دعوة فرح" target="_blank">💬 اطلب الخدمة بالواتساب</a>
+      </div>
+    </div>   
+   
+    <div class="service-item">
+      <div class="service-icon">🛡️</div>
+      <div>
+        <h3>تصميم هوية تجارية كاملة</h3>
+        <p>لوجو احترافي + ألوان + خطوط + بطاقة عمل + بروفايل كامل لشركتك أو مشروعك. ملفات جاهزة للطباعة والسوشيال ميديا.</p>
+        <div class="price">سرعة في الإنجاز • دقة في التنفيذ • أسعار مناسبة</div>
+        <a class="order-btn" href="https://wa.me/249991024965?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D8%B5%D9%85%D9%8A%D9%85%20%D9%87%D9%88%D9%8A%D8%A9%20%D8%AA%D8%AC%D8%A7%D8%B1%D9%8A%D8%A9%20%D9%83%D8%A7%D9%85%D9%84%D8%A9" target="_blank">💬 اطلب الخدمة بالواتساب</a>
+      </div>
+    </div>
+    
+    <div class="service-item">
+      <div class="service-icon">🎨</div>
+      <div>
+        <h3>تصميم بوسترات سوشيال ميديا</h3>
+        <p>بوسترات إعلانية جذابة لفيسبوك وانستقرام وتيك توك، بتصميم يخلي مشروعك يظهر بشكل احترافي ويجيب تفاعل.</p>
+        <div class="price">تصميم سريع • جودة عالية • مقاسات لكل المنصات</div>
+        <a class="order-btn" href="https://wa.me/249991024965?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D8%B5%D9%85%D9%8A%D9%85%20%D8%A8%D9%88%D8%B3%D8%AA%D8%B1%20%D8%B3%D9%88%D8%B4%D9%8A%D8%A7%D9%84%20%D9%85%D9%8A%D8%AF%D9%8A%D8%A7" target="_blank">💬 اطلب الخدمة بالواتساب</a>
+      </div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🎓</div>
+      <div>
+        <h3>بحوث تخرج</h3>
+        <p>كتابة وتنسيق بحوث التخرج بشكل احترافي: غلاف، فهرس، تنسيق Word، توثيق ومراجع، جاهز للطباعة والتسليم.</p>
+        <div class="price">كتابة احترافية • تنسيق دقيق • تسليم في الوقت</div>
+        <a class="order-btn" href="https://wa.me/249991024965?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AE%D8%AF%D9%85%D8%A9%20%D8%A8%D8%AD%D8%AB%20%D8%AA%D8%AE%D8%B1%D8%AC" target="_blank">💬 اطلب الخدمة بالواتساب</a>
+      </div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">📊</div>
+      <div>
+        <h3>ادخال/تحليل البيانات</h3>
+        <p>ادخال البيانات في ملفات الاكسل بكل دقة و تحليلها بشكل ممتاز لتسهيل فهم النظام الخاص بك و متابعه الدخل و المنصرفات</p>
+        <div class="price">للشركات • للمدارس</div>
+        <a class="order-btn" href="https://wa.me/249991024965?text=السلام عليكم عايز أطلب خدمة ادخال/تحليل البيانات" target="_blank">💬 اطلب الخدمة بالواتساب</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!--contact section-->
+<div class="contact" id="contact">
+  <h2>📧 راسلني عبر الإيميل</h2>
+  <p>اكتب رسالتك وحتصل طوالي على إيميلي</p>
+  <form onsubmit="sendEmail(event)">
+    <input type="text" id="name" placeholder="اسمك" required>
+    <input type="email" id="email" placeholder="إيميلك" required>
+    <textarea id="message" placeholder="اكتب رسالتك هنا... عايز تصميم شنو؟" required></textarea>
+    <button type="submit">إرسال الرسالة ✉️</button>
+  </form>
+  <p class="email-direct">أو راسلني مباشرة: <a href="mailto:techsimbay@gmail.com">techsimbay@gmail.com</a></p>
+</div>
+<!--show image section-->
+<div id="lightbox" onclick="closeLightbox(event)">
+  <button class="lb-close" onclick="closeLightbox(event, true)">✕</button>
+  <button class="lb-btn lb-prev" onclick="changeImage(1, event)">❯</button>
+  <button class="lb-btn lb-next" onclick="changeImage(-1, event)">❮</button>
+  <img id="lb-img" src="" alt="">
+  <h3 id="lb-title"></h3>
+  <p id="lb-desc"></p>
+  <div class="counter" id="lb-counter"></div>
+</div>
+<!--social media section-->
 <footer>
-  <p>تابعني:</p>
-  <p style="margin-top:10px">فيسبوك • انستقرام • تليجرام • تيك توك</p>
-  <p style="margin-top:10px"><a href="https://wa.me/249991024965">واتساب: 0991024965</a></p>
+  <p style="font-weight:700;font-size:18px">تابعني على</p>
+  <div class="social-icons">
+    <a href="https://facebook.com/simbaydesign" target="_blank" title="فيسبوك"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg></a>
+    <a href="https://instagram.com/simbay20" target="_blank" title="انستقرام"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9-.1-1.3-.1-1.6-.1-4.8s0-3.6.1-4.8C2.4 4 4 2.4 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8A6.2 6.2 0 1 0 18.2 12 6.2 6.2 0 0 0 12 5.8zm0 10.2A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.4-11.8a1.4 1.4 0 1 0 1.4 1.4 1.4 1.4 0 0 0-1.4-1.4z"/></svg></a>
+    <a href="https://t.me/simbaydesigning" target="_blank" title="تليجرام"><svg viewBox="0 0 24 24"><path d="M11.9 2A10 10 0 1 0 22 12 10 10 0 0 0 11.9 2zm5.2 7.3-1.8 8.4c-.1.6-.5.7-.9.5l-2.5-1.9-1.2 1.2c-.1.1-.3.3-.6.3l.2-2.6 4.7-4.2c.2-.2 0-.3-.3-.1l-5.7 3.6-2.4-.8c-.5-.2-.6-.5.1-.8l9.5-3.7c.4-.2.8.1.9.1z"/></svg></a>
+    <a href="https://tiktok.com/@simbay_design" target="_blank" title="تيك توك"><svg viewBox="0 0 24 24"><path d="M19.6 5.8a5 5 0 0 1-3.4-4.1V1h-3.4v13.4a2.9 2.9 0 0 1-2.9 2.9 2.9 2.9 0 0 1 0-5.8 2.8 2.8 0 0 1 1.4.4V8.4a6.2 6.2 0 0 0-1.4-.2 6.2 6.2 0 1 0 6.2 6.2V8.7a8.3 8.3 0 0 0 4.9 1.6V7a5 5 0 0 1-1.4-1.2z"/></svg></a>
+  </div>
+  <p class="footer-handle">#simbay_design | #سيمباي_ديزاين</p>
 </footer>
-
+<!--back to top section-->
+<button id="backToTop" onclick="scrollToTop()" title="العودة لأعلى">↑</button>
 <a class="whatsapp" href="https://wa.me/249991024965">💬 واتساب</a>
 
 <script>
@@ -118,17 +277,83 @@ function filterWorks(cat, btn){
     if(cat==='all' || card.dataset.cat===cat){
       card.style.display='block';
       setTimeout(()=>card.classList.add('show'),50);
-    } else {
-      card.style.display='none';
-    }
+    } else { card.style.display='none'; }
   });
 }
 const observer = new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting) entry.target.classList.add('show');
-  });
+  entries.forEach(entry=>{ if(entry.isIntersecting) entry.target.classList.add('show'); });
 },{threshold:0.1});
 document.querySelectorAll('.card').forEach(card=>observer.observe(card));
+function openServices(){
+  document.getElementById('servicesModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeServices(e, force){
+  if(force || e.target.id === 'servicesModal'){
+    document.getElementById('servicesModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+let currentIndex = 0;
+let visibleCards = [];
+function getVisibleCards(){ return [...document.querySelectorAll('.card')].filter(c => c.style.display !== 'none'); }
+function openLightbox(card){
+  visibleCards = getVisibleCards();
+  currentIndex = visibleCards.indexOf(card);
+  showImage();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function showImage(){
+  const card = visibleCards[currentIndex];
+  if(!card) return;
+  const img = card.querySelector('img');
+  document.getElementById('lb-img').src = img.src;
+  document.getElementById('lb-title').textContent = card.querySelector('h3').textContent;
+  document.getElementById('lb-desc').textContent = card.querySelector('p').textContent;
+  document.getElementById('lb-counter').textContent = (currentIndex + 1) + ' / ' + visibleCards.length;
+}
+function changeImage(step, e){ if(e) e.stopPropagation(); currentIndex = (currentIndex + step + visibleCards.length) % visibleCards.length; showImage(); }
+function closeLightbox(e, force){ if(force || e.target.id === 'lightbox'){ document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow = ''; } }
+document.querySelectorAll('.card').forEach(card=>{ card.addEventListener('click', ()=> openLightbox(card)); });
+document.addEventListener('keydown', (e)=>{
+  if(document.getElementById('lightbox').classList.contains('open')){
+    if(e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+    if(e.key === 'ArrowRight') changeImage(1);
+    if(e.key === 'ArrowLeft') changeImage(-1);
+  }
+  if(document.getElementById('servicesModal').classList.contains('open') && e.key === 'Escape'){
+    document.getElementById('servicesModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+const backBtn = document.getElementById('backToTop');
+window.addEventListener('scroll', ()=>{
+  if(window.scrollY > 400){ backBtn.classList.add('show'); }
+  else { backBtn.classList.remove('show'); }
+});
+function scrollToTop(){ window.scrollTo({top:0, behavior:'smooth'}); }
+function sendEmail(e){
+  e.preventDefault();
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const msg = document.getElementById('message').value;
+  const myEmail = 'techsimbay@gmail.com';
+  const subject = encodeURIComponent('رسالة جديدة من موقع سيمباي ديزاين - من ' + name);
+  const body = encodeURIComponent('الاسم: ' + name + '\nالإيميل: ' + email + '\n\nالرسالة:\n' + msg);
+  window.location.href = 'mailto:' + myEmail + '?subject=' + subject + '&body=' + body;
+}
+const progressBar = document.getElementById('progress');
+let progress = 0;
+const fakeProgress = setInterval(()=>{
+  if(progress < 90){ progress += Math.random() * 15; if(progress > 90) progress = 90; progressBar.style.width = progress + '%'; }
+}, 200);
+window.addEventListener('load', ()=>{
+  clearInterval(fakeProgress);
+  progressBar.style.width = '100%';
+  setTimeout(()=>{ document.getElementById('loader').classList.add('hide'); setTimeout(()=> document.getElementById('loader').remove(), 700); }, 400);
+});
+setTimeout(()=>{ const loader = document.getElementById('loader'); if(loader) loader.classList.add('hide'); }, 4000);
 </script>
 
 </body>
