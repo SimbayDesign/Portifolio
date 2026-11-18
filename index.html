@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>سيمباي ديزاين | البورتوفوليو </title>
+<title>سيمباي ديزاين | البورتوفوليو</title>
 
 <!-- ===== أيقونة الصفحة Favicon ===== -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%233954A4'/%3E%3Ctext x='50' y='68' font-size='55' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
@@ -128,6 +128,16 @@
     .gallery{max-width:1200px;grid-template-columns:repeat(3, 1fr)}
     header h1{font-size:48px}
   }
+
+/* ===== واجهة عدم الاتصال Offline ===== */
+#offlineOverlay{position:fixed;inset:0;background:#3954A4;z-index:20000;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;color:#fff}
+#offlineOverlay.show{display:flex}
+#offlineOverlay .offline-icon{font-size:70px;background:rgba(255,255,255,.15);width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+#offlineOverlay h2{font-size:28px;font-weight:900}
+#offlineOverlay p{opacity:.9;margin:12px 0 25px;line-height:1.7;max-width:400px}
+#offlineOverlay .retry-btn{background:#fff;color:#3954A4;border:none;padding:13px 30px;border-radius:50px;font-weight:900;font-size:16px;cursor:pointer}
+#onlineToast{position:fixed;top:15px;left:50%;transform:translate(-50%,-80px);background:#25D366;color:#fff;padding:12px 25px;border-radius:50px;font-weight:700;z-index:20001;transition:transform .4s ease}
+#onlineToast.show{transform:translate(-50%,0)}
 </style>
 </head>
 <body>
@@ -138,6 +148,16 @@
   <div class="progress-bar"><span id="progress"></span></div>
   <p>جاري تحميل معرض الأعمال...</p>
 </div>
+
+<!-- واجهة عدم الاتصال بالانترنت -->
+<div id="offlineOverlay">
+  <div class="offline-icon">📶</div>
+  <h2>أوبس! مافي انترنت 😅</h2>
+  <p>يبدو إنك غير متصل بالانترنت حالياً.<br>اتأكد من الشبكة أو الواي فاي وحاول تاني.</p>
+  <button class="retry-btn" onclick="checkConnection()">🔄 حاول تاني</button>
+  <p style="font-size:13px;opacity:.7;margin-top:20px">@simbay_design</p>
+</div>
+
 <!--header section-->
 <header>
 <!--profile section-->
@@ -354,6 +374,33 @@ window.addEventListener('load', ()=>{
   setTimeout(()=>{ document.getElementById('loader').classList.add('hide'); setTimeout(()=> document.getElementById('loader').remove(), 700); }, 400);
 });
 setTimeout(()=>{ const loader = document.getElementById('loader'); if(loader) loader.classList.add('hide'); }, 4000);
+
+// ===== كشف حالة الانترنت =====
+const offlineOverlay = document.getElementById('offlineOverlay');
+const onlineToast = document.getElementById('onlineToast');
+function checkConnection(){
+  if(navigator.onLine){
+    offlineOverlay.classList.remove('show');
+    document.body.style.overflow = '';
+  } else {
+    offlineOverlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+}
+function showOnlineToast(){
+  onlineToast.classList.add('show');
+  setTimeout(()=> onlineToast.classList.remove('show'), 3000);
+}
+window.addEventListener('load', () => { setTimeout(checkConnection, 600); });
+window.addEventListener('offline', () => {
+  offlineOverlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+});
+window.addEventListener('online', () => {
+  offlineOverlay.classList.remove('show');
+  document.body.style.overflow = '';
+  showOnlineToast();
+});
 </script>
 
 </body>
